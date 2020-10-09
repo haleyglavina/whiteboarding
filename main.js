@@ -86,35 +86,49 @@ const medianOfSorted = (arr1, arr2) => {
 // Find Longest Palindromic Substring //
 //====================================//
 
-// "ihaveakayakanditscool"
 const longestPalindromicSubstr = (str) => {
+  // MY ALGORITHM EXPLANATION
   // for each letter, find all instance(s) of that letter 
   // start with instance that is furthest away
   // and see if between them is a palindrome, if not go to slightly closer instance and check if bw is palindrome
 
-  // if no palindrome, fo to next letter and repeat
+  // if no palindrome, go to next letter and continue search by repeating these steps
+  // if palindrome, go to letter right after the palindrome ends and continue search by these repeating steps
 
-  // if palindrome, go to letter right after the palindrome ends and repeat
+  if (str.length <= 1) {
+    console.log("longest:", str);
+    return str;
+  }
 
+  let longestPalindrome = '';
   for (let i=0; i<str.length; i++) {
     let otherInstances = [];
     for (let j=i+1; j<str.length; j++) {
       // Identify indices of other i'th letter instances 
       if (str[j] == str[i])
         otherInstances.push(j);
-
-      // If no other instances, move on
-      if (otherInstances.length === 0)
-        break;
-      
-      // Check if palindrome exists between instances (starting from furthest instance)
-      while(otherInstances.length) {
-        let lastInstance = otherInstances.pop();
-
-      }
-
     }
+    
+    // Check if palindrome exists between instances (starting from furthest instance)
+    while(otherInstances.length) {
+      let lastInstance = otherInstances.pop();
+
+      // if we're looking at a palindrome substring
+      if (lastInstance && isPalindrome(str, i, lastInstance)) {
+        // and it's longer than current longest palindrome, replace it
+        if ((lastInstance - i + 1) > longestPalindrome.length) {
+          longestPalindrome = str.slice(i, lastInstance + 1);
+          break;
+        }
+
+        // continue longest palindrome search at the character after this palindrome
+        i = lastInstance + 1;
+      }
+    }
+    console.log("longest so far:", longestPalindrome);
   }
+  console.log("longest:", longestPalindrome);
+  return longestPalindrome;
 }
 
 // Checks if str contains a palindrome from start to end index
@@ -131,4 +145,4 @@ const isPalindrome = (str, start, end) => {
   return true;
 }
 
-console.log(isPalindrome('akayaka', 0, 6));
+//longestPalindromicSubstr('akayak');
