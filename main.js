@@ -168,3 +168,22 @@ const twoSum = (nums, target) => {
 }
 
 twoSum([2,7,11,15], 9);
+
+//====================================//
+//           Reverse Integer          //
+//====================================//
+
+const reverseInt = (num) => {
+  let isNegative = false;
+  if (num < 0)
+    isNegative = true;
+  
+  // check range
+  if (Math.abs(num) > 0x7FFFFFFF )
+    return 0;
+  
+  // Convert to string, reverse, convert to number, multiply by pos/neg
+  return (isNegative ? -1 : 1) * parseInt(num.toString().split('').reverse().join(''), 10);
+}
+
+console.log(reverseInt(120));
